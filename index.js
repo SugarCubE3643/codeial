@@ -14,6 +14,11 @@ const port = 8000;
 // `` (backticks) along with ${} notation allows us to put variables between string
 // This technique is called interpolation
 
+// Using express router
+// It'll redirect all routes to the router folder's index file for further routing
+// Express router is acting as a middleware
+app.use('/', require('./routes'));
+
 // Binds and listens for connection on the specified host and port
 app.listen(port, function(err){
     if(err){
