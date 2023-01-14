@@ -14,6 +14,17 @@ const port = 8000;
 // `` (backticks) along with ${} notation allows us to put variables between string
 // This technique is called interpolation
 
+// Importing layouts
+const expressLayouts = require('express-ejs-layouts');
+
+// Setting up static files
+app.use(express.static('./assets'));
+
+// We have to put the middleware before routes so that the views can follow the layouts
+app.use(expressLayouts);
+app.set('layout extractStyles', true);
+app.set('layout extractScripts', true);
+
 // Using express router
 // It'll redirect all routes to the router folder's index file for further routing
 // Express router is acting as a middleware

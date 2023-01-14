@@ -123,10 +123,35 @@
 ********************************************************************************************************************************************************************************************************************************************************************************
 
 13. Layouts and partials
+    Partials
+    For using partials make views with name _partialName.ejs
+    And use them in views using the following code
+    <%- include('_partialName); %>
+
+    Layouts
+    For using layouts put the common code in a view called layout.ejs
+    E.g.    <%- include('_header'); %> 
+            <%- body %>
+            <%- include('_footer'); %>
+
+    header and footer are the common parts while body is the variable part which is taken from whichever view is being used in action inside controller
 
 ********************************************************************************************************************************************************************************************************************************************************************************
 
+14. Setting up static files
+    Put the following middleware before layouts to point out the static folder
+    app.use(express.static('./assets'));
 
+    and in the href of layout link put /css/stylesheetName.css
+    the part before is taken from the static 
+
+    for using individual css and js files and putting them appropriately put the following in index.js
+    app.set('layout extractStyles', true);
+    app.set('layout extractScripts', true);
+
+    and then put the following in layout in appropriate positions
+    <%- style %> 
+    <%- script %> 
 
 ********************************************************************************************************************************************************************************************************************************************************************************
 
