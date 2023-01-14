@@ -19,6 +19,10 @@ const port = 8000;
 // Express router is acting as a middleware
 app.use('/', require('./routes'));
 
+// Setup the view engine
+app.set('view engine', 'ejs');
+app.set('views', './views');
+
 // Binds and listens for connection on the specified host and port
 app.listen(port, function(err){
     if(err){

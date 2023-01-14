@@ -12,5 +12,8 @@ console.log('Roter is loader');
 // This is the router which calls a particular action(function) from the controller
 router.get('/', homeController.home);
 
+// This will route all paths of /users to the users.js router
+router.use('/users', require('./users'));
+
 // Exporting router which will be used in the entry point
 module.exports = router;
