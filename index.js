@@ -1,6 +1,9 @@
 // require() reads a JavaScript file, executes it, and then proceeds to return the export object
 // by exporting the objects it allows to add modules
 
+// `` (backticks) along with ${} notation allows us to put variables between string
+// This technique is called interpolation
+
 // Imports express module
 const express = require('express');
 
@@ -11,11 +14,11 @@ const app = express();
 // For production we usually use port 80
 const port = 8000;
 
-// `` (backticks) along with ${} notation allows us to put variables between string
-// This technique is called interpolation
-
 // Importing layouts
 const expressLayouts = require('express-ejs-layouts');
+
+// Importing mongoose config as db
+const db = require('./config/mongoose');
 
 // Setting up static files
 app.use(express.static('./assets'));
