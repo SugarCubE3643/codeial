@@ -10,6 +10,7 @@ const express = require('express');
 // Makes an express app
 const app = express();
 
+const cookieParser = require('cookie-parser');
 // We use either port 8000 or 8080 for development purpose 
 // For production we usually use port 80
 const port = 8000;
@@ -19,6 +20,12 @@ const expressLayouts = require('express-ejs-layouts');
 
 // Importing mongoose config as db
 const db = require('./config/mongoose');
+
+// parse application/x-www-form-urlencoded
+app.use(express.urlencoded({extended: false}));
+
+// cookie-parser is a middleware which parses cookies attached to the client request object
+app.use(cookieParser());
 
 // Setting up static files
 app.use(express.static('./assets'));

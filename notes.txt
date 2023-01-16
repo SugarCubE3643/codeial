@@ -162,7 +162,7 @@
     make config/mongoose.js and put the following 
 
     const mongoose = reuire('mongoose');
-    mongoose.connect('mongodb://localhost/codeial_development');
+    mongoose.connect('mongodb://127.0.0.1/codeial_development');
     const db = mongoose.connection;
     db.on('error', console.error.bind(console, "Error connecting to MongoDB"));
     db.once('open', function(){
@@ -172,15 +172,72 @@
 
 ********************************************************************************************************************************************************************************************************************************************************************************
 
+16. Making a User Schema to be used for storing user details in db
 
+    inside /models/user.js
+
+    const mongoose = require('mongoose');
+
+    const userSchema = new mongoose.Schema({
+        email: {
+            type: String,
+            required: true,
+            unique: true
+        },
+        password: {
+            type: String,
+            required: true
+        },
+        name: {
+            type: String,
+            required: true
+        }
+    }, {
+        timestamps: true
+    });
+
+    const User = mongoose.model('User', userSchema);
+
+    module.exports = User;
 
 ********************************************************************************************************************************************************************************************************************************************************************************
 
+17. Adding bodyparser to parse application/x-www-form-urlencoded format of post requests
 
+    app.use(express.urlencoded({extended: false}));
+
+    Adding cookie parser which parses cookies attached to the client request object
+
+    const cookieParser = require('cookie-parser');
+    app.use(cookieParser());
 
 ********************************************************************************************************************************************************************************************************************************************************************************
 
+18. Making views, routes and actions for signin and signup
 
+    The action for signup can be as follows after importing User schema as User
+
+    const User = require('../models/user');
+
+    module.exports.createUser = function(req, res){
+    if(req.body.password != req.body.confirm_password){
+        return res.redirect('back');
+    }
+
+    User.findOne({email: req.body.email}, function(err, user){
+        if(err){console.log('Error in finding user in database during sign up'); return res.redirect('back');}
+
+        if(!user){
+            User.create(req.body, function(err, user){
+                if(err){console.log('Error in creating user in database during sign up'); return res.redirect('back');}
+
+                return res.redirect('/users/sign-in');
+            });
+        }
+
+        return res.redirect('back');
+    });
+}
 
 ********************************************************************************************************************************************************************************************************************************************************************************
 
