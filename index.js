@@ -1,8 +1,8 @@
 // require() reads a JavaScript file, executes it, and then proceeds to return the export object
-// by exporting the objects it allows to add modules
+// by exporting the objects it allows to import modules
 
 // `` (backticks) along with ${} notation allows us to put variables between string
-// This technique is called interpolation
+// This technique is called INTERPOLATION
 
 // Imports express module
 const express = require('express');
@@ -10,7 +10,9 @@ const express = require('express');
 // Makes an express app
 const app = express();
 
+// Used to import cookie-parser which parser req.cookies
 const cookieParser = require('cookie-parser');
+
 // We use either port 8000 or 8080 for development purpose 
 // For production we usually use port 80
 const port = 8000;
