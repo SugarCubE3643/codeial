@@ -19,6 +19,16 @@ const session = require('express-session');
 const passportLocal = require('./config/passport-local-strategy');
 const MongoStore = require('connect-mongo');
 const methodOverride = require('method-override');
+const sassMiddleware = require('node-sass-middleware');
+
+app.use(sassMiddleware({
+    src: './assets/scss',
+    dest: './assets/css',
+    debug: true,
+    outputStyle: 'extended',
+    prefix: '/css'
+}));
+
 
 const cookieParser = require('cookie-parser');
 // We use either port 8000 or 8080 for development purpose 
