@@ -53,7 +53,7 @@ function initialize(passport, getUserByEmail, getUserById){
 
     passport.checkNotAuthenticated = function (req, res, next) {
         if (req.isAuthenticated()) {
-            return res.redirect('/users/profile');
+            return res.redirect('/');
         }
         next();
     }

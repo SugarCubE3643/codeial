@@ -5,15 +5,18 @@ const express = require('express');
 const router = express.Router();
 
 // exporting home controller funcitons
-const homeController = require('../controllers/home_controller');
+const feedController = require('../controllers/feed_controller');
 
 console.log('Roter is loader');
 
 // This is the router which calls a particular action(function) from the controller
-router.get('/', homeController.home);
+router.get('/', feedController.feed);
 
 // This will route all paths of /users to the users.js router
 router.use('/users', require('./users'));
+
+router.use('/posts', require('./posts'));
+
 
 // Exporting router which will be used in the entry point
 module.exports = router;

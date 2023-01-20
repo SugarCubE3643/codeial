@@ -15,7 +15,7 @@ router.post('/create-session',
         'local', 
         { 
             failureRedirect: '/users/sign-in', 
-            successRedirect: '/users/profile' 
+            successRedirect: '/' 
         }), 
         usersController.createSession
 );
