@@ -1,27 +1,34 @@
 const User = require('../models/user');
 
 // For loading the profile page of the user
-module.exports.profile = function(req, res){
+module.exports.profile = async function(req, res){
 
-    User.findById(req.params.id, function(err, user){
+    try {
+        let user = await User.findById(req.params.id);    
         return res.render('profile', {
             title: "User",
             profile_user: user
         });
-    });    
+    } catch (err) {
+        console.log('Error', err);
+        return;
+    }    
 }
 
 
-module.exports.update = function(req, res){
+module.exports.update = async function(req, res){
 
-    if(req.user.id == req.params.id){
-        User.findByIdAndUpdate(req.params.id, req.body, function(err, user){
+    try {
+        if(req.user.id == req.params.id){
+            await User.findByIdAndUpdate(req.params.id, req.body);
             return res.redirect('back');
-        });
-    }else{
-        return res.status(401).send('Unauthorized');
+        }else{
+            return res.status(401).send('Unauthorized');
+        }
+    } catch (err) {
+        console.log('Error', err);
+        return;
     }
-
 }
 
 // For rendering sign up page
@@ -39,24 +46,24 @@ module.exports.signIn = function(req, res){
 }
 
 // For Creating a new user using sign-up post request
-module.exports.createUser = function(req, res){
-    if(req.body.password != req.body.confirm_password){
-        return res.redirect('back');
-    }
+module.exports.createUser = async function(req, res){
 
-    User.findOne({email: req.body.email}, function(err, user){
-        if(err){console.log('Error in finding user in database during sign up'); return res.redirect('back');}
-
-        if(!user){
-            User.create(req.body, function(err, user){
-                if(err){console.log('Error in creating user in database during sign up'); return res.redirect('back');}
-
-                return res.redirect('/users/sign-in');
-            });
+    try {
+        if(req.body.password != req.body.confirm_password){
+            return res.redirect('back');
         }
-
+    
+        let user = await User.findOne({email: req.body.email});
+    
+        if(!user){
+            await User.create(req.body);
+            return res.redirect('/users/sign-in');
+        }
         return res.redirect('back');
-    });
+    } catch (err) {
+        console.log('Error', err);
+        return;
+    }
 }
 
 // For logging in the user using sign-in post request
