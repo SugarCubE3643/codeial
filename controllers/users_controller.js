@@ -68,6 +68,7 @@ module.exports.createUser = async function(req, res){
 
 // For logging in the user using sign-in post request
 module.exports.createSession = function(req, res){
+    req.flash('success', 'You have successfully logged in');
     return res.redirect('/');
 }
 
@@ -76,6 +77,7 @@ module.exports.destroySession = function(req, res, next){
         if(err){
             return next(err);
         }
+        req.flash('success', 'You have logged out !');
         return res.redirect('/users/sign-in');
     });
 }

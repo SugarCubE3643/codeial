@@ -6,28 +6,31 @@ const LocalStrategy = require('passport-local').Strategy;
 
 // Authentication using passport
 function initialize(passport, getUserByEmail, getUserById){
-    const authenticator =  function(email, password, done){
-        User.findOne({email: email}, function(err,user){
-            if(err){
-                console.log(`Error in finding user --> Passport: ${err}`);
-            }            
+    const authenticator =  async function(req, email, password, done){
+        
+        try {
+            let user = await User.findOne({email: email});        
+
             if(!user){
+                req.flash('error', 'Invalid Username / Password');
                 return done(null, false); // email doesn't exists
             }
-            try {
-                if(bcrypt.compare(password, user.password))
-                {
-                    return done(null, user); // user is successfully logged in
-                }
-                else{
-                    return done(null, false); // password is incorrect
-                }
-            } catch (error) {
-                return done(error);
+            // await bcrypt.compare(password, user.password)
+            if(password == user.password)
+            {
+                req.flash('success', 'Successfully logged in');
+                return done(null, user); // user is successfully logged in
             }
-        });        
+            else{
+                req.flash('error', 'Invalid Username / Password');
+                return done(null, false); // password is incorrect
+            }
+        } catch (error) {
+            req.flash('error', error);
+            return done(error);
+        }
     }
-    passport.use(new LocalStrategy({usernameField: 'email'}, authenticator));
+    passport.use(new LocalStrategy({usernameField: 'email', passReqToCallback: true}, authenticator));
 
     passport.serializeUser(function(user, done) {
         done(null, user.id);

@@ -1,46 +1,5 @@
-/* CSS variables */
-:root {
-    
-}
-
-/* Some reasonable resets and changes to deafult css*/
-html {
-    -webkit-box-sizing: border-box;
-    box-sizing: border-box;
-    height: 100%;
-}
-
-*,
-*::before,
-*::after {
-    -webkit-box-sizing: inherit;
-    box-sizing: inherit;
-    margin: 0;
-    padding: 0;
-
-    /* Setting the font family for all elements */
-    font-family: sans-serif;
-}
-
-/* Removing default list styles */
-li {
-    list-style: none;
-}
-
-/* Removing default button styles and adding responsive padding */
-button {
-    border: none;
-    background: transparent;
-    padding: 0.4em 0.8em;
-}
-
-
-/* Custom hr tag style according to the theme of the project */
-hr {
-    display: block;
-    height: 2px;
-    border: 0;
-
-    border-top: 2px solid var(--lightGreyBorderColor1);
-    padding: 0;
-}
+body {
+  margin: 0;
+  /* text-align: center; */ }
+  body #layout-main {
+    height: 100%; }
