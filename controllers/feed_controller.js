@@ -1,4 +1,5 @@
 const Post = require('../models/post');
+const User = require('../models/user');
 
 module.exports.feed = function(req, res){
 
@@ -7,16 +8,18 @@ module.exports.feed = function(req, res){
     .populate({
         path: 'comments',
         populate: {
-            path: 'user'
+            path: 'user',
         }
     })
     .exec(function(err, posts){
         if(err){console.log(`Error in finding posts: ${err}`); return res.end();}
 
-        return res.render('feed', {
-            title: "Feed Page",
-            posts: posts
+        User.find({}, function(err, users){
+            return res.render('feed', {
+                title: "Feed Page",
+                posts: posts,
+                all_users: users
+            });
         });
-    });
-    
+    });    
 };
