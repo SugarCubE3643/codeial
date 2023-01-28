@@ -19,5 +19,7 @@ router.use('/posts', require('./posts'));
 
 router.use('/comments', require('./comments'));
 
+router.use('/api', require('./api'));
+
 // Exporting router which will be used in the entry point
 module.exports = router;
