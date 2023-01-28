@@ -87,6 +87,8 @@ app.use(customMiddleware.setflash);
 
 // Setting up static files
 app.use(express.static('./assets'));
+// make the uploads path available to the browser
+app.use('/uploads', express.static(__dirname + '/uploads'));
 
 // We have to put the middleware before routes so that the views can follow the layouts
 app.use(expressLayouts);
