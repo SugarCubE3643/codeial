@@ -1,5 +1,7 @@
 const Comment = require('../models/comment');
 const Post = require('../models/post');
+const commentsMailer = require('../mailers/comments_mailer');
+const Like = require('../models/like');
 
 module.exports.create = async function(req, res){
     try {
@@ -16,9 +18,8 @@ module.exports.create = async function(req, res){
             post.save();
 
             comment = await comment.populate('user', 'name email');
-            if (req.xhr){
-                // Similar for comments to fetch the user's id!
-    
+
+            if (req.xhr){    
                 return res.status(200).json({
                     data: {
                         comment: comment
@@ -28,11 +29,11 @@ module.exports.create = async function(req, res){
             }
 
             req.flash('success', 'Comment published!');
-            res.redirect('back');
+            res.redirect('/');
         }
     } catch (err) {
         console.log('Error', err);
-        return res.redirect('back');
+        return;
     }
     
 }
@@ -45,8 +46,8 @@ module.exports.destroy = async function (req, res) {
 
             comment.remove();
 
-            await Post.findByIdAndUpdate(postId, {$pull: {comments: req.params.id}});
-
+            let post = await Post.findByIdAndUpdate(postId, {$pull: {comments: req.params.id}});
+            await Like.deleteMany({likeable: comment._id, onModel: 'Comment'});
             // send the comment id which was deleted back to the views
             if (req.xhr){
                 return res.status(200).json({
@@ -67,6 +68,5 @@ module.exports.destroy = async function (req, res) {
     } catch (err) {
         req.flash('error', err);
         return res.redirect('back');
-    }
-    
+    }    
 }
